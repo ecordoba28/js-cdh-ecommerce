@@ -1,3 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
 nav{
     height: 100px;
 }
+
+select{
+    display: inline;
+    text-align: center;
+    border: 1px solid lightskyblue;
+    margin: 20px;
+}
+
+#productContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+/* .card{
+    margin: 30px;
+} */
