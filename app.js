@@ -27,7 +27,7 @@ function showProducts(array){
         </div>
         `
 
-        modalCart.appendChild(div)
+        productContainer.appendChild(div)
 
         let addButton = document.getElementById(`${products.id}`)
         addButton.addEventListener('click', () => {
