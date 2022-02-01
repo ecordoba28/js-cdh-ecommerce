@@ -1,6 +1,7 @@
 
 
 const productContainer = document.getElementById('productContainer');
+const modalCart = document.getElementById('modal-body')
 const cart = [];
 
 
@@ -26,11 +27,11 @@ function showProducts(array){
         </div>
         `
 
-        productContainer.appendChild(div)
+        modalCart.appendChild(div)
 
         let addButton = document.getElementById(`${products.id}`)
         addButton.addEventListener('click', () => {
-            addToCart();
+            addToCart(products.id);
         })
     });
 }
@@ -40,28 +41,15 @@ function showProducts(array){
 
 function addToCart(id){
     let add = productStock.find(product => product.id == id)
-
     cart.push(add)
 
     let div = document.createElement('div')
     div.classList.add('productOnCart')
-    div.innerHTML = `<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>`
-
+    div.innerHTML = `
+                      <p>${add.name}</p>
+                      <p>$${add.price}</p>
+                      <button>X</button>
+    `
+    modalCart.appendChild(div)
 }
 
