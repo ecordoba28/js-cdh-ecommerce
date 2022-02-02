@@ -59,34 +59,43 @@ function showProducts(array){
 
 
 function addToCart(id){
-    let add = productStock.find(product => product.id == id)
-    cart.push(add)
-
-    cartUpdate();
-
-    let div = document.createElement('div')
-    div.classList.add('productOnCart')
-    div.innerHTML = `
-                      <h4>${add.name}</h4>
-                      <p>$${add.price}</p>
-                      <button class="delete-button" id='delete${add.id}'>quitar</button><hr>
-                      
-    `
-    modalCart.appendChild(div)
-
-    let deleteBtn = document.getElementById(`delete${add.id}`)
-    deleteBtn.addEventListener('click', () =>{
-        deleteBtn.parentElement.remove()
-        cart = cart.filter(element => element.id != add.id)
+    let verify = cart.find(element => element.id == id)
+    if (verify){
+        verify.cant = verify.cant + 1
         cartUpdate();
-        Toastify({
-            text: "💀Producto Eliminado",
-            className: "info",
-            style: {
-            background: "red",
-            }
-        }).showToast();
-    } )
+    }else{
+        let add = productStock.find(product => product.id == id)
+        cart.push(add)
+    
+        cartUpdate();
+    
+        let div = document.createElement('div')
+        div.classList.add('productOnCart')
+        div.innerHTML = `
+                          <h4>${add.name}</h4>
+                          <p>$${add.price}</p>
+                          <button class="delete-button" id='delete${add.id}'>quitar</button><hr>
+                          
+        `
+        modalCart.appendChild(div)
+    
+        let deleteBtn = document.getElementById(`delete${add.id}`)
+        deleteBtn.addEventListener('click', () =>{
+            deleteBtn.parentElement.remove()
+            cart = cart.filter(element => element.id != add.id)
+            cartUpdate();
+            Toastify({
+                text: "💀Producto Eliminado",
+                className: "info",
+                style: {
+                background: "red",
+                }
+            }).showToast();
+        } )
+        
+    }
+
+    
 }
 
 
