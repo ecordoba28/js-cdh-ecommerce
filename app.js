@@ -2,11 +2,23 @@
 
 const productContainer = document.getElementById('productContainer');
 const modalCart = document.getElementById('modal-body')
-const cart = [];
+let cart = [];
+
+const cartCounter = document.getElementById('cartCounter')
+const total = document.getElementById('totalPrice')
+
+const sizeSelect = document.getElementById('sizeSelect')
+
+sizeSelect.addEventListener('change', ()=> {
+    console.log(sizeSelect.value);
+    if(sizeSelect.value == 'all'){
+        showProducts(productStock)
+    } else {
+        showProducts(productStock.filter(element => element.size == sizeSelect.value))
+    }
+})
 
 
-
-showProducts(productStock);
 
 function showProducts(array){
     productContainer.innerHTML = ''
@@ -32,6 +44,13 @@ function showProducts(array){
         let addButton = document.getElementById(`${products.id}`)
         addButton.addEventListener('click', () => {
             addToCart(products.id);
+            Toastify({
+                text: "🤑Producto Agregado",
+                className: "info",
+                style: {
+                  background: "green",
+                }
+              }).showToast();
         })
     });
 }
@@ -43,13 +62,38 @@ function addToCart(id){
     let add = productStock.find(product => product.id == id)
     cart.push(add)
 
+    cartUpdate();
+
     let div = document.createElement('div')
     div.classList.add('productOnCart')
     div.innerHTML = `
-                      <p>${add.name}</p>
+                      <h4>${add.name}</h4>
                       <p>$${add.price}</p>
-                      <button>X</button>
+                      <button class="delete-button" id='delete${add.id}'>quitar</button><hr>
+                      
     `
     modalCart.appendChild(div)
+
+    let deleteBtn = document.getElementById(`delete${add.id}`)
+    deleteBtn.addEventListener('click', () =>{
+        deleteBtn.parentElement.remove()
+        cart = cart.filter(element => element.id != add.id)
+        cartUpdate();
+        Toastify({
+            text: "💀Producto Eliminado",
+            className: "info",
+            style: {
+            background: "red",
+            }
+        }).showToast();
+    } )
 }
 
+
+
+function cartUpdate(){
+    cartCounter.innerText = cart.reduce((acc, el) => acc + el.cant, 0 )
+    total.innerText = cart.reduce((acc, el) => acc + (el.price * el.cant), 0)
+}
+
+showProducts(productStock);
